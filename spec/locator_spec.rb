@@ -45,7 +45,7 @@ describe WhereTo::Locator do
     expect(locator.season_airdate).to eq 2015
   end
 
-  describe '.locate' do
+  describe 'validation' do
     before do
       @options = {}
       @options[:title]          = 'Show title'
@@ -57,16 +57,15 @@ describe WhereTo::Locator do
     it 'requires a season number' do
       @options[:season] = nil
       locator = WhereTo::Locator.new @options
-      expect{locator.locate}.to raise_error(RuntimeError, 'A season number is required to locate an episode')
+      expect{ locator.validate! }.to raise_error(RuntimeError, 'A season number is required to locate an episode')
     end
 
     it 'requires a season airdate' do
       @options[:season_airdate] = nil
       locator = WhereTo::Locator.new @options
-      expect { locator.locate }.to raise_error(RuntimeError, 'A season airdate is required to locate an episode')
+      expect { locator.validate! }.to raise_error(RuntimeError, 'A season airdate is required to locate an episode')
     end
 
-    
   end
 
 end
