@@ -3,3 +3,8 @@ rvm:
   - 2.2.1
 before_install:
   gem install bundler
+after_success:
+- git checkout -b coverage_badge
+- git add --force coverage/coverage.svg
+- git commit -m 'Update coverage badge'
+- git push
