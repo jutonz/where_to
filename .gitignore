@@ -6,7 +6,4 @@
 /pkg/
 /spec/reports/
 /tmp/
-/coverage/*.json
-/coverage/*.html
-/coverage/*.log
-/coverage/assets/
+/coverage/
