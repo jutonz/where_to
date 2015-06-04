@@ -8,10 +8,6 @@ module WhereTo
       set_filename_folder_from_location
     end
 
-    # def ==(other)
-    #   location == other
-    # end
-
     def <=>(other)
       location <=> other
     end
