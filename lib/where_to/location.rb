@@ -1,5 +1,6 @@
 module WhereTo
   class Location # implements comparable
+    include Comparable
     attr_accessor :folder, :filename, :location
 
     def initialize(from_location)
@@ -7,8 +8,12 @@ module WhereTo
       set_filename_folder_from_location
     end
 
-    def ==(other)
-      location == other
+    # def ==(other)
+    #   location == other
+    # end
+
+    def <=>(other)
+      location <=> other
     end
 
     private

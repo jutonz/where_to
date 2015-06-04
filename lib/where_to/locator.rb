@@ -4,19 +4,28 @@ require 'yaml'
 module WhereTo
   class Locator
     attr_accessor :title, :airdate, :season, :season_airdate
+    FORMAT_FILE = 'lib/where_to/format.yml'
 
     def initialize(hash = {})
       load_values_from hash
+      @format_file = YAML.load_file FORMAT_FILE
     end
   
     def locate(hash = {})
       load_values_from hash
       validate!
+
+      output = @format_file['format']
+      output.gsub! '%series_title',   title
+      output.gsub! '%season_number',  season.to_s
+      output.gsub! '%season_airdate', season_airdate.to_s
+      WhereTo::Location.new output
     end
 
     def validate!
       raise 'A season airdate is required to locate an episode' if season_airdate == nil
-      raise 'A season number is required to locate an episode' if season.nil? 
+      raise 'A season number is required to locate an episode' if season.nil?
+      true
     end
 
     private
