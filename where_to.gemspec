@@ -9,8 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Justin Toniazzo"]
   spec.email         = ["jutonz42@gmail.com"]
 
+  spec.license       = 'MIT'
+
   spec.summary       = "Helps preserve a folder structure for mediafiles"
-  spec.homepage      = "github.com/jutonz/where_to"
+  spec.homepage      = "https://github.com/jutonz/where_to"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
