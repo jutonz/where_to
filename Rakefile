@@ -6,9 +6,11 @@ RSpec::Core::RakeTask.new(:spec)
 task default: :spec
 
 task :watch do
+  folders_to_watch = 'bin lib spec'
+  action_on_change = 'bundle exec rake'
   begin 
     gem 'filewatcher'
-    sh "filewatcher 'bin lib spec' 'bundle exec rake'"
+    sh "filewatcher '#{folders_to_watch}' '#{action_on_change}'"
   rescue Gem::LoadError
     puts 'You need to have the filewatcher gem installed to perform this task.'
     puts 'Install with \'gem install filewatcher\''
