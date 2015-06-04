@@ -52,25 +52,27 @@ data = {}
 data[:series_title] = 'Game of Thrones'
 data[:season] = 5
 data[:season_airdate] = 2015
-data[:episode_title] = 'best episode ever'a
+data[:episode_title] = 'best episode ever'
 data[:episode_number] = 3
 locator = WhereTo::Locator.new data
 location = locator.locate
 location.folder # => Game of Thrones/Season 5 (2015)
-location.filename # => game.of.thrones.s05E02.best.episode.ever.mkv
+location.filename # => game.of.thrones.S05E02.best.episode.ever.mkv
 
 # You can specify custom file extensions
 locator.episode_extension = '.mp4'
-locator.locate.filename # => game.of.thrones.s05E02.best.episode.ever.mp4
+locator.locate.filename # => game.of.thrones.S05E02.best.episode.ever.mp4
 
 # And if you like you can specify a video quality
 locator.episode_quality = '720p'
-locator.locate.filename # => game.of.thrones.s05E02.best.episode.ever.720p.mkv
+locator.locate.filename # => game.of.thrones.S05E02.best.episode.ever.720p.mkv
 ```
 
 ## Custom Formats
 Specify custom formats by modifying `format.yml`.  
 The default is `"%series_title/Season %season_number (%season_airdate)/"`, but in theory any combination works.
+
+Right now you can't change the episode filename format, but we're working on it!
 
 ## Development
 
