@@ -5,7 +5,7 @@ describe WhereTo::Locator do
   describe 'validation' do
     before do
       @options = {}
-      @options[:title]          = 'Show title'
+      @options[:series_title]   = 'Show title'
       @options[:season]         = 2
       @options[:airdate]        = Date.today
       @options[:season_airdate] = 2015
@@ -31,10 +31,10 @@ describe WhereTo::Locator do
       @locator = WhereTo::Locator.new
     end
 
-    it 'remembers an episode title' do
-      title = 'amazing title'
-      @locator.title = title
-      expect(@locator.title).to be title
+    it 'remembers a series title' do
+      series_title = 'amazing title'
+      @locator.series_title = series_title
+      expect(@locator.series_title).to be series_title
     end
 
     it 'remembers a season number' do
@@ -57,14 +57,14 @@ describe WhereTo::Locator do
 
     it 'can load data from a hash' do
       @options = {}
-      @options[:title]          = 'Show title'
+      @options[:series_title]   = 'Show title'
       @options[:season]         = 2
       @options[:airdate]        = Date.today
       @options[:season_airdate] = 2015
 
       locator = WhereTo::Locator.new @options
 
-      expect(locator.title).to eq 'Show title'
+      expect(locator.series_title).to eq 'Show title'
       expect(locator.season).to eq 2
       expect(locator.airdate).to eq Date.today
       expect(locator.season_airdate).to eq 2015
@@ -74,9 +74,9 @@ describe WhereTo::Locator do
 
   describe 'locating' do
 
-    it 'can locate shows with a title, season, and season airdate' do
+    it 'can locate shows with a series title, season, and season airdate' do
       options = {}
-      options[:title]          = 'Game of Thrones'
+      options[:series_title]   = 'Game of Thrones'
       options[:season]         = 5
       options[:season_airdate] = 2015
 
@@ -86,7 +86,7 @@ describe WhereTo::Locator do
 
     it 'returns a location object' do
       options = {}
-      options[:title]          = 'Game of Thrones'
+      options[:series_title]   = 'Game of Thrones'
       options[:season]         = 5
       options[:season_airdate] = 2015
 

@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/jutonz/where_to/badge.svg?branch=master)](https://coveralls.io/r/jutonz/where_to?branch=master)
 
 This gem helps you maintain a directory sturucture for your mediafiles. For example, if you specify the following about a set of video files:  
-* Show title: Game of Thrones
+* Series title: Game of Thrones
 * Season: 5
 * Season airdate: 2015  
 
@@ -28,14 +28,14 @@ require 'where_to'
 
 # Specify data one at a time
 locator = WhereTo::Locator.new 
-locator.title = 'Game of Thrones'
+locator.series_title = 'Game of Thrones'
 locator.season = 5
 locator.season_airdate = 2015
 locator.locate # WhereTo::Location object with 'Game of Thrones/Season 5 (2015)/'
 
 # Specify data in a batch
 data = {}
-data[:title] = 'Game of Thrones'
+data[:series_title] = 'Game of Thrones'
 data[:season] = 5
 data[:season_airdate] = 2015
 locator = WhereTo::Locator.new data

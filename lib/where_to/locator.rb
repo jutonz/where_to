@@ -3,7 +3,7 @@ require 'yaml'
 
 module WhereTo
   class Locator
-    attr_accessor :title, :airdate, :season, :season_airdate
+    attr_accessor :series_title, :airdate, :season, :season_airdate
     FORMAT_FILE = 'lib/where_to/format.yml'
 
     def initialize(hash = {})
@@ -16,7 +16,7 @@ module WhereTo
       validate!
 
       output = @format_file['format']
-      output.gsub! '%series_title',   title
+      output.gsub! '%series_title',   series_title
       output.gsub! '%season_number',  season.to_s
       output.gsub! '%season_airdate', season_airdate.to_s
       WhereTo::Location.new output
@@ -35,7 +35,7 @@ module WhereTo
     end
 
     def load_values_from(hash = {})
-      set_unless_nil :title,          hash[:title]
+      set_unless_nil :series_title,   hash[:series_title]
       set_unless_nil :airdate,        hash[:airdate]
       set_unless_nil :season,         hash[:season]
       set_unless_nil :season_airdate, hash[:season_airdate]

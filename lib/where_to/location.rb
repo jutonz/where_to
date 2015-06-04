@@ -1,5 +1,5 @@
 module WhereTo
-  class Location # implements comparable
+  class Location
     include Comparable
     attr_accessor :folder, :filename, :location
 
