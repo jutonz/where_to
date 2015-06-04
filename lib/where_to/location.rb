@@ -1,5 +1,5 @@
 module WhereTo
-  class Location
+  class Location # implements comparable
     attr_accessor :folder, :filename, :location
 
     def initialize(from_location)
