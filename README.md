@@ -29,7 +29,7 @@ locator = WhereTo::Locator.new
 locator.title = 'Game of Thrones'
 locator.season = 5
 locator.season_airdate = 2015
-locator.locate # returns a WhereTo::Location object with 'Game of Thrones/Season 5 (2015)/'
+locator.locate # WhereTo::Location object with 'Game of Thrones/Season 5 (2015)/'
 
 # Specify data in a batch
 data = {}
@@ -41,7 +41,7 @@ locator.locate
 ```
 
 ## Custom Formats
-Specify custom formats by modifying `format.yml`  
+Specify custom formats by modifying `format.yml`.  
 The default is `"%series_title/Season %season_number (%season_airdate)/"`, but in theory any combination works.
 
 ## Development
