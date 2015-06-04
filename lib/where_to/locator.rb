@@ -1,22 +1,21 @@
 require 'where_to/location'
+require 'where_to/configuration'
 require 'yaml'
 
 module WhereTo
   class Locator
     attr_accessor :series_title, :airdate, :season, :season_airdate
     attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension
-    FORMAT_FILE = 'lib/where_to/format.yml'
 
     def initialize(hash = {})
       load_values_from hash
-      @format_file = YAML.load_file FORMAT_FILE
     end
   
     def locate(hash = {})
       load_values_from hash
       validate!
 
-      output = @format_file['folder_format']
+      output = WhereTo.configuration.folder_format
       output.gsub! '%series_title',   series_title
       output.gsub! '%season_number',  season.to_s
       output.gsub! '%season_airdate', season_airdate.to_s
