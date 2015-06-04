@@ -1,5 +1,11 @@
 language: ruby
 rvm:
-  - 2.2.1
-before_install:
-  gem install bundler
+- 2.2.1
+before_install: gem install bundler
+deploy:
+  provider: rubygems
+  api_key:
+    secure: Clu86dKN1QD6NM27DLqGndhG+yltTIonzqDd9XbHrtloETaIHxzlnBwntOXAPOYUxIoonXQtLGVLzcQiai2XbMIdzxinSxQrV0vazGkySgTILUlqI4/dYI+jFpBkzVg+hB95fymp3D/EyfXKrLnl2mgJ+LHlPvJzOX+nzZJ4vTYFHrwA+VS36yMDH3Qn9yC1QrrL62rH3kQVi9i6XDUWWDGspkDq1KB70SlJvHPzD6rX5aKPhW87f9gpllM46KzKiBMXmks/sBKm/HXQ2xDrbKubgnr1hG43hTpxVNi1haM9SCDc4yky0SVM3n0F/Z6lAuW1F1tkSnbkVhUVYt3RsdbWSspFIw9OdZXEKinFGNOibLKIU0qlIWy0tfvdqVWzEdaddK1ZRCG+o9V4cdMLqcoJQ4TyFe5axquGLe8PiDXfbYIx7C2O9hw5jsB3HkpchQDa+kiRuqL/DtvKylFicaGiLekimcl41/q2XpHuBEAGKVaryX7YU8zGzkWavfkT0ljmJXgnYKeBqNwFYoO/JXAuaEto1bpXb2pO6aUbsEJL6FrVpKawzuJYjrHJBboCSjmMTCx/U1pS46fEJY/FL21byGBVM9BoXTlv1yrS97C0TAJLjjpDPPgD/fPOVt7c6eLavBpdOIcYWv+8JoOHYVukVgTB+oX+CoRE1olLDRI=
+  gem: where_to
+  on:
+    repo: jutonz/where_to
