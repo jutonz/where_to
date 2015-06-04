@@ -72,26 +72,62 @@ describe WhereTo::Locator do
 
   end
 
-  describe 'locating' do
+  describe 'locating series' do
+    before do 
+      @options = {}
+      @options[:series_title]   = 'Game of Thrones'
+      @options[:season]         = 5
+      @options[:season_airdate] = 2015
+    end
 
     it 'can locate shows with a series title, season, and season airdate' do
-      options = {}
-      options[:series_title]   = 'Game of Thrones'
-      options[:season]         = 5
-      options[:season_airdate] = 2015
-
-      locator = WhereTo::Locator.new options
+      locator = WhereTo::Locator.new @options
       expect(locator.locate).to eq 'Game of Thrones/Season 5 (2015)/'
     end
 
     it 'returns a location object' do
-      options = {}
-      options[:series_title]   = 'Game of Thrones'
-      options[:season]         = 5
-      options[:season_airdate] = 2015
-
-      locator = WhereTo::Locator.new options
+      locator = WhereTo::Locator.new @options
       expect(locator.locate.class).to eq WhereTo::Location
+    end
+
+  end
+
+  describe 'locating episodes' do
+    before do 
+      @options = {}
+      @options[:series_title]   = 'Game of Thrones'
+      @options[:season]         = 5
+      @options[:season_airdate] = 2015
+      @options[:episode_title] = 'Something amazing'
+      @options[:episode_number] = 3
+    end
+
+    it 'will specify a filename if an episode title and number are included' do 
+      locator = WhereTo::Locator.new @options
+
+      location = locator.locate
+      expect(location.folder).to eq 'Game of Thrones/Season 5 (2015)/'
+      expect(location.filename).to eq 'game.of.thrones.S05E03.something.amazing.mkv'
+    end
+
+    it 'honors custom file extensions' do
+      @options[:episode_title] = 'custom file container'
+      @options[:episode_extension] = '.avi' #yuck
+      locator = WhereTo::Locator.new @options
+
+      location = locator.locate
+      expect(location.folder).to eq 'Game of Thrones/Season 5 (2015)/'
+      expect(location.filename).to eq 'game.of.thrones.S05E03.custom.file.container.avi'
+    end
+
+    it 'will append a quality if one was specified' do
+      @options[:episode_title] = 'super good quality'
+      @options[:episode_quality] = '9001p'
+      locator = WhereTo::Locator.new @options
+
+      location = locator.locate
+      expect(location.folder).to eq 'Game of Thrones/Season 5 (2015)/'
+      expect(location.filename).to eq 'game.of.thrones.S05E03.super.good.quality.9001p.mkv'
     end
 
   end

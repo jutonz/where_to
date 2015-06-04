@@ -1,1 +1,1 @@
-format: "%series_title/Season %season_number (%season_airdate)/"
+folder_format: "%series_title/Season %season_number (%season_airdate)/"

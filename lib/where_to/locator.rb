@@ -4,6 +4,7 @@ require 'yaml'
 module WhereTo
   class Locator
     attr_accessor :series_title, :airdate, :season, :season_airdate
+    attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension
     FORMAT_FILE = 'lib/where_to/format.yml'
 
     def initialize(hash = {})
@@ -15,10 +16,16 @@ module WhereTo
       load_values_from hash
       validate!
 
-      output = @format_file['format']
+      output = @format_file['folder_format']
       output.gsub! '%series_title',   series_title
       output.gsub! '%season_number',  season.to_s
       output.gsub! '%season_airdate', season_airdate.to_s
+
+      if episode_title and episode_number
+        formatter = WhereTo::EpisodeFormatter.new params
+        output << formatter.format!
+      end
+
       WhereTo::Location.new output
     end
 
@@ -26,6 +33,17 @@ module WhereTo
       raise 'A season airdate is required to locate an episode' if season_airdate == nil
       raise 'A season number is required to locate an episode' if season.nil?
       true
+    end
+
+    def params
+      _params = {}
+      _params[:series_title]   = series_title
+      _params[:season_number]  = season
+      _params[:episode_title]  = episode_title
+      _params[:episode_number] = episode_number
+      _params[:quality]        = episode_quality
+      _params[:extension]      = episode_extension
+      _params
     end
 
     private
@@ -39,6 +57,10 @@ module WhereTo
       set_unless_nil :airdate,        hash[:airdate]
       set_unless_nil :season,         hash[:season]
       set_unless_nil :season_airdate, hash[:season_airdate]
+      set_unless_nil :episode_title,  hash[:episode_title]
+      set_unless_nil :episode_number, hash[:episode_number]
+      set_unless_nil :episode_quality, hash[:episode_quality]
+      set_unless_nil :episode_extension, hash[:episode_extension]
     end
   end
 end

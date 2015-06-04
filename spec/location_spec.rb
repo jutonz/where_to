@@ -8,7 +8,7 @@ describe WhereTo::Location do
     end
 
     it 'remembers a containing folder' do 
-      expect(@location.folder).to eq '/test/dir'
+      expect(@location.folder).to eq '/test/dir/'
     end
 
     it 'remembers a filename' do
@@ -26,7 +26,7 @@ describe WhereTo::Location do
     end
 
     it 'remembers a contianing folder' do
-      expect(@location.folder).to eq '/test/dir'
+      expect(@location.folder).to eq '/test/dir/'
     end
 
     it 'has no filename' do

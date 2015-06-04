@@ -18,11 +18,11 @@ module WhereTo
       split = location.split '/'
       last  = split[-1]
       if File.extname(last) == '' # No extension; is a directory
-        @folder   = location
+        @folder   = location + '/'
         @filename = ''
       else
         @filename = split.pop
-        @folder   = split.join '/'
+        @folder   = split.join('/') + '/'
       end
     end 
 
