@@ -1,28 +1,48 @@
 # WhereTo [![Build Status](https://travis-ci.org/jutonz/where_to.svg)](https://travis-ci.org/jutonz/where_to)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/where_to`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem helps you maintain a directory sturucture for your mediafiles. For example, if you specify the following about a set of video files:  
+* Show title: Game of Thrones
+* Season: 5
+* Season airdate: 2015  
 
-TODO: Delete this and the text above, and describe your gem
+This program tells you that they should be located in a folder called `Game of Thrones/Season 5 (2015)/`. Of course you can customize this to match whatever file structure you prefer.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'where_to'
+gem where_to, git: 'https://github.com/jutonz/where_to'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install where_to
-
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'where_to'
+
+# Specify data one at a time
+locator = WhereTo::Locator.new 
+locator.title = 'Game of Thrones'
+locator.season = 5
+locator.season_airdate = 2015
+locator.locate # returns a WhereTo::Location object with 'Game of Thrones/Season 5 (2015)/'
+
+# Specify data in a batch
+data = {}
+data[:title] = 'Game of Thrones'
+data[:season] = 5
+data[:season_airdate] = 2015
+locator = WhereTo::Locator.new data
+locator.locate
+```
+
+## Custom Formats
+Specify custom formats by modifying `format.yml`  
+The default is `"%series_title/Season %season_number (%season_airdate)/"`, but in theory any combination works.
 
 ## Development
 
@@ -32,7 +52,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/where_to/fork )
+1. Fork it ( https://github.com/jutonz/where_to/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
