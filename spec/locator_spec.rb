@@ -6,11 +6,6 @@ describe WhereTo::Locator do
     @locator = WhereTo::Locator.new
   end
 
-  # it 'accepts episode info in the fromat of SxxExx' do
-  #   location = @locator.locate series: 'Game of Thrones', episode: 'S05E01'
-  #   expect(location.folder).to eq '/Game of Thrones/Season 5 (2015)'
-  # end
-
   it 'remembers an episode title' do
     title = 'amazing title'
     @locator.title = title
@@ -71,9 +66,7 @@ describe WhereTo::Locator do
       expect { locator.locate }.to raise_error(RuntimeError, 'A season airdate is required to locate an episode')
     end
 
-    it 'allows you to specify a season number when calling' do
-
-    end
+    
   end
 
 end
