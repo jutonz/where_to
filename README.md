@@ -1,4 +1,6 @@
-# WhereTo [![Build Status](https://travis-ci.org/jutonz/where_to.svg)](https://travis-ci.org/jutonz/where_to)
+# WhereTo 
+[![Build Status](https://travis-ci.org/jutonz/where_to.svg)](https://travis-ci.org/jutonz/where_to)
+[![Coverage Status](https://coveralls.io/repos/jutonz/where_to/badge.svg?branch=master)](https://coveralls.io/r/jutonz/where_to?branch=master)
 
 This gem helps you maintain a directory sturucture for your mediafiles. For example, if you specify the following about a set of video files:  
 * Show title: Game of Thrones
