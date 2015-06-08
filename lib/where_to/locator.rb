@@ -34,6 +34,11 @@ module WhereTo
       true
     end
 
+    def lookup!
+      tvdb = WhereTo::TVDB.new
+      load_values_from tvdb.lookup! params
+    end
+
     def params
       _params = {}
       _params[:series_title]   = series_title
