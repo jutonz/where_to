@@ -1,6 +1,6 @@
 module WhereTo
   class TVDB 
-    attr_accessor :series_title, :episode_number, :season
+    attr_accessor :series_title, :episode_number, :season, :episode_title
 
     def initialize(params = {})
       load_values_from params
