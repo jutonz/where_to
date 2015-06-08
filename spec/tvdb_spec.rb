@@ -40,7 +40,7 @@ describe WhereTo::TVDB do
       @tvdb_bad_key = WhereTo::TVDB.new params
 
       WhereTo.configure do |config|
-        config.tvdb_api_key = 'DDDD8997BF1D783E'
+        config.tvdb_api_key = ENV['TVDB_API_KEY']
       end
       @tvdb_good_key = WhereTo::TVDB.new params
     end
@@ -58,11 +58,11 @@ describe WhereTo::TVDB do
     end
 
     it 'gets episode title' do
-      expect(WhereTo.configuration.tvdb_api_key).to eq 'DDDD8997BF1D783E' 
+      expect(WhereTo.configuration.tvdb_api_key).to eq ENV['TVDB_API_KEY']
+      expect(@tvdb_good_key.api_key).to eq ENV['TVDB_API_KEY']
       @tvdb_good_key.lookup!
       expect(@tvdb_good_key.episode_title).to eq 'The House of Black and White'
     end
-
 
   end
 

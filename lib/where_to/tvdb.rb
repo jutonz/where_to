@@ -3,10 +3,12 @@ require 'tvdb_party'
 module WhereTo
   class TVDB 
     attr_accessor :series_title, :episode_number, :season, :episode_title
+    attr_reader :api_key
 
     def initialize(params = {})
       load_values_from params
-      @db = TvdbParty::Search.new WhereTo.configuration.tvdb_api_key
+      @api_key = WhereTo.configuration.tvdb_api_key
+      @db = TvdbParty::Search.new api_key
     end
 
     def lookup!
