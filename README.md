@@ -68,6 +68,21 @@ locator.episode_quality = '720p'
 locator.locate.filename # => game.of.thrones.S05E02.best.episode.ever.720p.mkv
 ```
 
+### TVDB Integration
+You can also ask TVDB for episode information.  
+In your console, type:
+`export TVDB_API_KEY='super secret api key'`
+
+Then in your Ruby program:
+```ruby
+locator = WhereTo::Locator.new
+locator.series_title = 'Game of Thrones'
+locator.season = 5
+locator.episode_number = 3
+locator.lookup!
+locator.episode_title # 'High Sparrow'
+```
+
 ## Custom Formats
 Specify custom formats by modifying `format.yml`.  
 The default is `"%series_title/Season %season_number (%season_airdate)/"`, but in theory any combination works.
