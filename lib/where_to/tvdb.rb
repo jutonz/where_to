@@ -1,13 +1,22 @@
+require 'tvdb_party'
+
 module WhereTo
   class TVDB 
     attr_accessor :series_title, :episode_number, :season, :episode_title
 
     def initialize(params = {})
       load_values_from params
+      @db = TvdbParty::Search.new WhereTo.configuration.tvdb_api_key
     end
 
     def lookup!
       validate!
+      results = @db.search(series_title).first
+      series  = @db.get_series_by_id results['seriesid']
+      episode = series.get_episode season, episode_number
+      @episode_title = episode.name
+    rescue URI::InvalidURIError
+      raise 'You need to configure your TVDB API key before looking up episode information'
     end
 
     def validate!

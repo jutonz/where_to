@@ -24,4 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov", "~> 0.10.0"
   spec.add_development_dependency "coveralls", "~> 0.8.1"
   spec.add_development_dependency "rspec", "~> 3.2"
+
+  spec.add_dependency "tvdb_party", "~> 0.8.0"
 end

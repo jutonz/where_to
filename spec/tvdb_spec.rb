@@ -37,16 +37,30 @@ describe WhereTo::TVDB do
       params[:series_title]   = 'Game of Thrones'
       params[:season]         = 5
       params[:episode_number] = 2
-      @tvdb = WhereTo::TVDB.new params
+      @tvdb_bad_key = WhereTo::TVDB.new params
+
+      WhereTo.configure do |config|
+        config.tvdb_api_key = 'DDDD8997BF1D783E'
+      end
+      @tvdb_good_key = WhereTo::TVDB.new params
+    end
+
+    after :each do
+      WhereTo.reset
     end
 
     it 'validates beforehand' do
-      expect{ @tvdb.lookup! }.to_not raise_error
+      expect{ @tvdb_good_key.validate! }.to_not raise_error
+    end
+
+    it 'compliains if your TVDB API key was not set' do
+      expect{ @tvdb_bad_key.lookup! }.to raise_error(RuntimeError, 'You need to configure your TVDB API key before looking up episode information')
     end
 
     it 'gets episode title' do
-      @tvdb.lookup!
-      expect(@tvdb.episode_title).to eq 'The House of Black and White'
+      expect(WhereTo.configuration.tvdb_api_key).to eq 'DDDD8997BF1D783E' 
+      @tvdb_good_key.lookup!
+      expect(@tvdb_good_key.episode_title).to eq 'The House of Black and White'
     end
 
 
