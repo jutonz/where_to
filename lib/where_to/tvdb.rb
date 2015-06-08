@@ -17,6 +17,10 @@ module WhereTo
       series  = @db.get_series_by_id results['seriesid']
       episode = series.get_episode season, episode_number
       @episode_title = episode.name
+
+      updated = {}
+      updated[:episode_title] = episode_title
+      updated
     rescue URI::InvalidURIError
       raise 'You need to configure your TVDB API key before looking up episode information'
     end
@@ -37,6 +41,7 @@ module WhereTo
     def load_values_from(hash = {})
       set_unless_nil :series_title,   hash[:series_title]
       set_unless_nil :airdate,        hash[:airdate]
+      set_unless_nil :season,         hash[:season_number]
       set_unless_nil :season,         hash[:season]
       set_unless_nil :season_airdate, hash[:season_airdate]
       set_unless_nil :episode_title,  hash[:episode_title]

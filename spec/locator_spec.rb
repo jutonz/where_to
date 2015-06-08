@@ -93,7 +93,13 @@ describe WhereTo::Locator do
   end
 
   describe 'locating episodes' do
-    before do 
+    before :all do 
+      WhereTo.configure do |config|
+        config.tvdb_api_key = ENV['TVDB_API_KEY']
+      end
+    end
+    
+    before :each do 
       @options = {}
       @options[:series_title]   = 'Game of Thrones'
       @options[:season]         = 5
@@ -128,6 +134,17 @@ describe WhereTo::Locator do
       location = locator.locate
       expect(location.folder).to eq 'Game of Thrones/Season 5 (2015)/'
       expect(location.filename).to eq 'game.of.thrones.S05E03.super.good.quality.9001p.mkv'
+    end
+
+    it 'can lookup episode information from a database' do
+      locator = WhereTo::Locator.new @options
+      expect(locator.season).to be 5
+      locator.lookup!
+      expect(locator.episode_title).to eq 'High Sparrow'
+    end
+
+    after :all do
+      WhereTo.reset
     end
 
   end

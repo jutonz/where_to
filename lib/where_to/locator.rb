@@ -35,8 +35,8 @@ module WhereTo
     end
 
     def lookup!
-      tvdb = WhereTo::TVDB.new
-      load_values_from tvdb.lookup! params
+      tvdb = WhereTo::TVDB.new params
+      load_values_from tvdb.lookup!
     end
 
     def params
