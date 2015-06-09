@@ -5,7 +5,7 @@ require 'yaml'
 module WhereTo
   class Locator
     attr_accessor :series_title, :airdate, :season, :season_airdate
-    attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension
+    attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension, :group
 
     def initialize(hash = {})
       load_values_from hash
@@ -47,6 +47,7 @@ module WhereTo
       _params[:episode_number] = episode_number
       _params[:quality]        = episode_quality
       _params[:extension]      = episode_extension
+      _params[:group]          = group
       _params
     end
 
@@ -65,6 +66,7 @@ module WhereTo
       set_unless_nil :episode_number, hash[:episode_number]
       set_unless_nil :episode_quality, hash[:episode_quality]
       set_unless_nil :episode_extension, hash[:episode_extension]
+      set_unless_nil :group,          hash[:group]
     end
   end
 end

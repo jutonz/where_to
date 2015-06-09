@@ -136,6 +136,16 @@ describe WhereTo::Locator do
       expect(location.filename).to eq 'game.of.thrones.S05E03.super.good.quality.9001p.mkv'
     end
 
+    it 'will append a group if one was specified' do
+      @options[:group] = 'hellow'
+      locator = WhereTo::Locator.new @options
+      expect(locator.group).to eq 'hellow'
+
+      location = locator.locate
+      expect(location.folder).  to eq 'Game of Thrones/Season 5 (2015)/'
+      expect(location.filename).to eq 'game.of.thrones.S05E03.something.amazing-hellow.mkv'
+    end
+
     it 'can lookup episode information from a database' do
       locator = WhereTo::Locator.new @options
       expect(locator.season).to be 5

@@ -1,16 +1,17 @@
 module WhereTo
   class EpisodeFormatter
     attr_accessor :series_title, :season_number, :episode_title, :episode_number
-    attr_accessor :quality, :extension
+    attr_accessor :quality, :extension, :group
     DEFAULT_EXTENSION = '.mkv'
 
-    def initialize(hash = {}, series_title: hash[:series_title], season_number: hash[:season_number], episode_title: hash[:episode_title], episode_number: hash[:episode_number], extension: hash[:extension], quality: hash[:quality])
-      set_unless_nil :series_title, series_title
-      set_unless_nil :season_number, season_number
-      set_unless_nil :episode_title, episode_title
+    def initialize(hash = {}, series_title: hash[:series_title], season_number: hash[:season_number], episode_title: hash[:episode_title], episode_number: hash[:episode_number], extension: hash[:extension], quality: hash[:quality], group: hash[:group])
+      set_unless_nil :series_title,   series_title
+      set_unless_nil :season_number,  season_number
+      set_unless_nil :episode_title,  episode_title
       set_unless_nil :episode_number, episode_number
-      set_unless_nil :quality, quality
-      set_unless_nil :extension, extension, default: DEFAULT_EXTENSION
+      set_unless_nil :quality,        quality
+      set_unless_nil :extension,      extension,      default: DEFAULT_EXTENSION
+      set_unless_nil :group,          group
     end
 
     def format!
@@ -20,8 +21,12 @@ module WhereTo
       formatted << "SxxEyy".gsub('xx', season_number.to_s.rjust(2, '0')).gsub('yy', episode_number.to_s.rjust(2, '0'))
       formatted << episode_title.downcase.gsub(' ', '.')
       formatted << quality.downcase if quality
-      formatted << extension.gsub('.', '') # remove . so the join is easier
-      formatted.join('.')
+      formatted = formatted.join('.')
+
+      formatted << "-#{group}" if group
+      formatted << extension
+
+      formatted
     end
 
     def validate!
