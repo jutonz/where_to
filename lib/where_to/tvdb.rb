@@ -2,7 +2,7 @@ require 'tvdb_party'
 
 module WhereTo
   class TVDB 
-    attr_accessor :series_title, :episode_number, :season, :episode_title
+    attr_accessor :series_title, :episode_number, :season, :episode_title, :season_airdate
     attr_reader :api_key
 
     def initialize(params = {})
@@ -16,10 +16,12 @@ module WhereTo
       results = @db.search(series_title).first
       series  = @db.get_series_by_id results['seriesid']
       episode = series.get_episode season, episode_number
-      @episode_title = episode.name
+      @episode_title  = episode.name
+      @season_airdate = episode.air_date.year 
 
       updated = {}
-      updated[:episode_title] = episode_title
+      updated[:episode_title]  = episode_title
+      updated[:season_airdate] = season_airdate
       updated
     rescue URI::InvalidURIError
       raise 'You need to configure your TVDB API key before looking up episode information'

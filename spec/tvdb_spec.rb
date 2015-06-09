@@ -64,6 +64,11 @@ describe WhereTo::TVDB do
       expect(@tvdb_good_key.episode_title).to eq 'The House of Black and White'
     end
 
+    it 'gets season airdate' do
+      @tvdb_good_key.lookup!
+      expect(@tvdb_good_key.season_airdate).to be 2015
+    end
+
     it 'returns a hash of updated values' do
       results = @tvdb_good_key.lookup!
       expect(results[:episode_title]).to eq 'The House of Black and White'
