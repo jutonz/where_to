@@ -2,22 +2,26 @@ require 'spec_helper'
 
 describe WhereTo do
 
-  describe '#configure' do 
-    before :each do
-      @format = 'wow/what/a/great/directory/structure'
-      WhereTo.configure do |config|
-        config.folder_format = @format
-      end
+  describe '#configure' do
+    let(:format)  { 'wow/what/a/great/directory/structure' }
+    let(:api_key) { '1337hax0r' }
+
+    after { WhereTo.reset }
+
+    it 'folder_format has a reasonable default' do
+      expect(WhereTo.configuration.folder_format).to \
+        eq "%series_title/Season %season_number (%season_airdate)/"
     end
 
-    it 'accepts a new configuration' do
-      expect(WhereTo.configuration.folder_format).to eq @format
+    it 'allows updating of folder_format' do
+      WhereTo.configure { |config| config.folder_format = format }
+      expect(WhereTo.configuration.folder_format).to eq format
     end
 
-    after :each do
-      WhereTo.reset
+    it 'allows updating of tvdb_api_key' do
+      WhereTo.configure { |config| config.tvdb_api_key = api_key }
+      expect(WhereTo.configuration.tvdb_api_key).to eq api_key
     end
-
   end
 
   describe '#reset' do
