@@ -2,7 +2,7 @@ require 'tvdb_party'
 
 module WhereTo
   class TVDB 
-    attr_accessor :series_title, :episode_number, :season, :episode_title, :season_airdate
+    attr_accessor :series_title, :episode_number, :season, :episode_title, :season_airdate, :series_id
     attr_reader :api_key
 
     def initialize(params = {})
@@ -13,8 +13,8 @@ module WhereTo
 
     def lookup!
       validate!
-      results = @db.search(series_title).first
-      series  = @db.get_series_by_id results['seriesid']
+      results = @db.search(series_title).first unless series_id
+      series  = @db.get_series_by_id (series_id || results['seriesid'])
       episode = series.get_episode season, episode_number
       @episode_title  = episode.name
       @season_airdate = episode.air_date.year 

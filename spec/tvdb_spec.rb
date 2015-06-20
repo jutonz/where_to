@@ -74,6 +74,14 @@ describe WhereTo::TVDB do
       expect(results[:episode_title]).to eq 'The House of Black and White'
     end
 
+    it 'uses a series_id if one is specified' do 
+      @tvdb_good_key.series_title = 'blahblahblah'
+      @tvdb_good_key.series_id    = '261690'
+      @tvdb_good_key.season       = 1
+      @tvdb_good_key.lookup!
+
+      expect(@tvdb_good_key.episode_title).to eq 'The Clock'
+    end
   end
 
 end
