@@ -65,8 +65,8 @@ command :organize do |cmd|
     files = Dir.glob "*#{options[:ext]}"
     raise WhereTo::NoFilesError.new(options[:ext], location) if files.none?
     puts "I found the following files:"
-    files.each { |file| puts file }
-    puts ''
+    puts files
+    puts ""
 
     WhereTo.configure do |config|
       config.tvdb_api_key = ENV['TVDB_API_KEY']
