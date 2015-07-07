@@ -5,6 +5,12 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
+namespace :parallel do
+  task :spec do
+    sh "parallel_rspec spec/"
+  end
+end
+
 task :watch do
   folders_to_watch = 'bin lib spec'
   action_on_change = 'bundle exec rake'
