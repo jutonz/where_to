@@ -11,11 +11,14 @@ module WhereTo
       @db = TvdbParty::Search.new api_key
     end
 
+    # Probably split into lookup_season, lookup_episode (which lazy instantiate)
+    # and lookup_season!, lookup_episode! (which force db hit):w
     def lookup!
       validate!
       results = @db.search(series_title).first unless series_id
       series  = @db.get_series_by_id (series_id || results['seriesid'])
       episode = series.get_episode season, episode_number
+      raise "It doesn't look like the series #{series.name} has an episode #{episode_number} for season #{season}" unless episode
       @episode_title  = episode.name
       @season_airdate = episode.air_date.year 
 
@@ -27,8 +30,12 @@ module WhereTo
       raise 'You need to configure your TVDB API key before looking up episode information'
     end
 
+    def lookup_series(series_id)
+      @db.get_series_by_id series_id 
+    end
+
     def validate!
-      raise 'A series title is required to lookup episode information' if series_title.nil?
+      raise 'A series title is required to lookup episode information' if series_title.nil? && series_id.nil?
       raise 'An episode number is required to lookup episode information' if episode_number.nil?
       raise 'A season number is required to lookup episode information' if season.nil?
       true
@@ -50,6 +57,7 @@ module WhereTo
       set_unless_nil :episode_number, hash[:episode_number]
       set_unless_nil :episode_quality, hash[:episode_quality]
       set_unless_nil :episode_extension, hash[:episode_extension]
+      set_unless_nil :series_id,         hash[:series_id]
     end
   end
 end

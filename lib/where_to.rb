@@ -1,9 +1,7 @@
-require 'where_to/version'
-require 'where_to/locator'
-require 'where_to/location'
-require 'where_to/configuration'
-require 'where_to/episode_formatter'
-require 'where_to/tvdb'
+require 'date'
+
+# Require all the libraries!
+Dir[File.dirname(__FILE__) + "/where_to/**/*.rb"].each { |f| require_relative f }
 
 module WhereTo
   class << self

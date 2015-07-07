@@ -1,14 +1,17 @@
-require 'where_to/location'
-require 'where_to/configuration'
+require_relative 'location'
+require_relative 'configuration'
 require 'yaml'
 
 module WhereTo
   class Locator
     attr_accessor :series_title, :airdate, :season, :season_airdate
-    attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension, :group
+    attr_accessor :episode_title, :episode_number, :episode_quality, :episode_extension, :group, :series_id
 
     def initialize(hash = {})
       load_values_from hash
+      if series_id
+        @series_title = WhereTo::TVDB.new(params).lookup_series(series_id).name
+      end
     end
   
     def locate(hash = {})
@@ -48,6 +51,7 @@ module WhereTo
       _params[:quality]        = episode_quality
       _params[:extension]      = episode_extension
       _params[:group]          = group
+      _params[:series_id]      = series_id
       _params
     end
 
@@ -58,15 +62,16 @@ module WhereTo
     end
 
     def load_values_from(hash = {})
-      set_unless_nil :series_title,   hash[:series_title]
-      set_unless_nil :airdate,        hash[:airdate]
-      set_unless_nil :season,         hash[:season]
-      set_unless_nil :season_airdate, hash[:season_airdate]
-      set_unless_nil :episode_title,  hash[:episode_title]
-      set_unless_nil :episode_number, hash[:episode_number]
-      set_unless_nil :episode_quality, hash[:episode_quality]
+      set_unless_nil :series_title,      hash[:series_title]
+      set_unless_nil :airdate,           hash[:airdate]
+      set_unless_nil :season,            hash[:season]
+      set_unless_nil :season_airdate,    hash[:season_airdate]
+      set_unless_nil :episode_title,     hash[:episode_title]
+      set_unless_nil :episode_number,    hash[:episode_number]
+      set_unless_nil :episode_quality,   hash[:episode_quality]
       set_unless_nil :episode_extension, hash[:episode_extension]
-      set_unless_nil :group,          hash[:group]
+      set_unless_nil :group,             hash[:group]
+      set_unless_nil :series_id,         hash[:series_id]
     end
   end
 end

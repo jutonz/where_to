@@ -4,7 +4,7 @@ module WhereTo
     attr_accessor :quality, :extension, :group
     DEFAULT_EXTENSION = '.mkv'
 
-    def initialize(hash = {}, series_title: hash[:series_title], season_number: hash[:season_number], episode_title: hash[:episode_title], episode_number: hash[:episode_number], extension: hash[:extension], quality: hash[:quality], group: hash[:group])
+    def initialize(hash = {}, series_title: hash[:series_title], season_number: hash[:season_number], episode_title: hash[:episode_title], episode_number: hash[:episode_number], extension: hash[:extension], quality: hash[:quality], group: hash[:group], series_id: hash[:series_id])
       set_unless_nil :series_title,   series_title
       set_unless_nil :season_number,  season_number
       set_unless_nil :episode_title,  episode_title

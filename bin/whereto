@@ -1,0 +1,143 @@
+#!/usr/bin/env ruby
+require 'gli'
+require_relative '../lib/where_to'
+
+include GLI::App
+
+PROMPT_DESCRIPTORS = Hash.new do |hash, key|
+  hash[key] = "a #{key}"
+end
+
+PROMPT_DESCRIPTORS[:episode_number] = 'an episode number'
+PROMPT_DESCRIPTORS[:episode_title]  = 'an episode title'
+
+# PROMPT_DESCRIPTORS.freeze
+
+program_desc 'Helps you organize your media library by enforcing a consistent directory structure.'
+
+version WhereTo::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+desc 'Enforce a file structure on the specified file or directory'
+arg_name 'location'
+command :organize do |cmd|
+
+  cmd.desc 'Set the name of the series (will otherwise be prompted to enter)'
+  cmd.arg_name 'series_title'
+  cmd.default_value nil
+  cmd.flag [:s, :series]
+
+  cmd.desc 'Set the season number'
+  cmd.arg_name 'season_number'
+  cmd.default_value nil
+  cmd.flag [:n, :season]
+
+  cmd.desc 'Set the TVDB season id'
+  cmd.arg_name 'series_id'
+  cmd.default_value nil
+  cmd.flag [:i, :series_id]
+
+  # cmd.desc 'Set the series airdate'
+  # cmd.arg_name 'season_airdate'
+  # cmd.default_value nil
+  # cmd.flag [:a, :airdate]
+
+  cmd.desc 'Only look for files with the given extension'
+  cmd.arg_name 'extname'
+  cmd.default_value '.mkv'
+  cmd.flag [:e, :ext]
+
+  cmd.desc "Run normally, but don't actually perform renames"
+  cmd.default_value false
+  cmd.switch :dryrun, negatable: false
+
+  cmd.action do |global_options, options, args|
+    puts ''
+    location = args[0]
+    raise "The location '#{location}' does not exist" unless File.exist? location
+
+    @options = options
+
+    Dir.chdir location
+    files = Dir.glob "*#{options[:ext]}"
+    puts "I found the following files:"
+    files.each { |file| puts file }
+    puts ''
+
+    WhereTo.configure do |config|
+      config.tvdb_api_key = ENV['TVDB_API_KEY']
+    end
+
+    process files
+
+  end
+
+end
+
+def process(files)
+  locator = WhereTo::Locator.new series_id: @options[:series_id]
+  locator.episode_number = 0
+  locator.series_title   = prompt_for :series_title, default: locator.series_title
+
+  files.sort.each do |file|
+    puts ''
+    puts "For file #{file}:"
+
+    %i{season episode_number group}.each do |field|
+      locator.send("#{field}=", prompt_for(field, default: locator.send(field)))
+    end
+
+    locator.lookup! 
+    locator.episode_title  = prompt_for :episode_title, default: locator.episode_title
+
+    new_file = locator.locate.filename
+    puts "New filename: #{new_file}"
+
+    if not @options[:dryrun]
+      rename file, to: new_file
+    else
+      puts 'Skipping rename because of dryrun flag'
+    end
+
+  end
+end
+
+def rename(from, to:)
+  print 'Renaming...'
+  FileUtils.mv from, to unless from == to
+  puts 'success!'
+end
+
+def prompt_for(option, default: nil)
+  prompt = "Enter #{PROMPT_DESCRIPTORS[option]}"
+  prompt += " (or press enter for #{default})" unless default.nil?
+  prompt += ': '
+  print prompt
+  input = STDIN.gets.chomp
+  input.empty? ? default : input  
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)
