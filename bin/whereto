@@ -61,10 +61,10 @@ command :organize do |cmd|
     @options = options
 
     Dir.chdir location
-    files = Dir.glob "*#{options[:ext]}"
+    files = Dir.glob("*#{options[:ext]}").sort
     puts "I found the following files:"
-    files.each { |file| puts file }
-    puts ''
+    puts files
+    puts ""
 
     WhereTo.configure do |config|
       config.tvdb_api_key = ENV['TVDB_API_KEY']
