@@ -11,3 +11,6 @@ require 'where_to/locator'
 require 'where_to/episode_formatter'
 require 'where_to/configuration'
 require 'where_to/tvdb'
+
+require 'where_to_cli/helpers'
+

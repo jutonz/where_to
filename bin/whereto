@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 require 'gli'
 require_relative '../lib/where_to'
+require_relative '../lib/where_to_cli/helpers'
 
 include GLI::App
+include WhereToCLI
 
 PROMPT_DESCRIPTORS = Hash.new do |hash, key|
   hash[key] = "a #{key}"
@@ -55,13 +57,13 @@ command :organize do |cmd|
 
   cmd.action do |global_options, options, args|
     puts ''
-    location = args[0]
-    raise "The location '#{location}' does not exist" unless File.exist? location
+    location = Helpers::check_location!(args.first)
 
     @options = options
 
     Dir.chdir location
     files = Dir.glob "*#{options[:ext]}"
+    raise WhereTo::NoFilesError.new(options[:ext], location) if files.none?
     puts "I found the following files:"
     files.each { |file| puts file }
     puts ''
