@@ -51,6 +51,10 @@ command :organize do |cmd|
   cmd.default_value '.mkv'
   cmd.flag [:e, :ext]
 
+  cmd.desc 'Print a full stack trace on error. Useful for debugging.'
+  cmd.default_value false
+  cmd.switch :debug, negatable: false
+
   cmd.desc "Run normally, but don't actually perform renames"
   cmd.default_value false
   cmd.switch :dryrun, negatable: false
@@ -143,7 +147,12 @@ end
 on_error do |exception|
   # Error logic here
   # return false to skip default error handling
-  true
+  if @options && @options[:debug]
+    puts exception.backtrace
+    false
+  else
+    true
+  end
 end
 
 exit run(ARGV)
