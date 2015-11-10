@@ -43,6 +43,23 @@ describe WhereTo::Locator do
       expect(@locator.season).to be season_number
     end
 
+    it 'remembers an episode number' do
+      episode_number = 2
+      @locator.episode_number = episode_number
+      expect(@locator.episode_number).to be episode_number
+    end
+
+    it 'lets me increment an episode number' do
+      episode_number = 2
+      @locator.episode_number = episode_number
+      expect(@locator.episode_number).to be episode_number
+
+      3.times do |n|
+        @locator.episode_number += 1
+        expect(@locator.episode_number).to be episode_number + n + 1
+      end
+    end
+
     it 'remembers an airdate' do
       date = Date.today
       @locator.season_airdate = date
