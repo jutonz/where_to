@@ -91,6 +91,8 @@ def process(files)
       locator.send("#{field}=", prompt_for(field, default: locator.send(field)))
     end
 
+    locator.episode_extension = @options[:extname]
+
     locator.lookup! 
     locator.episode_title  = prompt_for :episode_title, default: locator.episode_title
 
