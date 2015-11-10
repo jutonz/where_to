@@ -91,7 +91,7 @@ def process(files)
     puts ''
     puts "For file #{file}:"
 
-    locator.episode_number += 1
+    locator.episode_number = locator.episode_number.to_i = 1
     locator.episode_extension = @options[:extname]
 
     %i{season episode_number group}.each do |field|
@@ -148,6 +148,7 @@ on_error do |exception|
   # Error logic here
   # return false to skip default error handling
   if @options && @options[:debug]
+    puts exception.message
     puts exception.backtrace
     false
   else
