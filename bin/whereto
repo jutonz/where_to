@@ -65,9 +65,15 @@ command :organize do |cmd|
 
     @options = options
 
-    Dir.chdir location
-    files = Dir.glob "*#{options[:ext]}"
-    raise WhereTo::NoFilesError.new(options[:ext], location) if files.none?
+    files = if File.directory?(location)
+      Dir.chdir location
+      files = Dir.glob "*#{options[:ext]}"
+      raise WhereTo::NoFilesError.new(options[:ext], location) if files.none?
+      files
+    else
+      Array(location)
+    end
+
     puts "I found the following files:"
     puts files
     puts ""
